@@ -41,16 +41,41 @@ class Info(commands.Cog):
         
         await interaction.response.send_message(embed=embed)
 
-    @app_commands.command(name="botinfo", description="Lihat informasi tentang bot ini")
-    async def botinfo(self, interaction: discord.Interaction):
-        embed = discord.Embed(title="Bot Info", description="Bot Discord Serbaguna dengan Fitur Game", color=discord.Color.blue())
-        embed.add_field(name="Developer", value="David Adesta", inline=False)
-        embed.add_field(name="Library", value="discord.py", inline=True)
-        embed.add_field(name="Total Server", value=str(len(self.bot.guilds)), inline=True)
+    @app_commands.command(name="help", description="Menampilkan daftar semua perintah yang tersedia")
+    async def help_command(self, interaction: discord.Interaction):
+        # Build embed for help menu
+        embed = discord.Embed(
+            title="📚 Bantuan Perintah Bot",
+            description="Berikut adalah daftar perintah yang bisa Anda gunakan:",
+            color=discord.Color.blurple()
+        )
+        
         if self.bot.user.display_avatar:
             embed.set_thumbnail(url=self.bot.user.display_avatar.url)
+            
+        # Group commands by Cog
+        for cog_name, cog in self.bot.cogs.items():
+            commands_list = cog.get_app_commands()
+            if not commands_list:
+                continue
+                
+            cmd_strings = []
+            for cmd in commands_list:
+                desc = cmd.description or "Tidak ada deskripsi"
+                cmd_strings.append(f"`/{cmd.name}` - {desc}")
+                
+            if cmd_strings:
+                embed.add_field(
+                    name=f"🔸 {cog_name} Commands",
+                    value="\n".join(cmd_strings),
+                    inline=False
+                )
+                
+        embed.set_footer(text="Gunakan / di chat untuk melihat daftar lengkap perintah dari Discord.")
         
-        await interaction.response.send_message(embed=embed)
+        # Kirim pesan secara ephemeral (hanya bisa dilihat oleh user yang memanggil command)
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
 
 async def setup(bot):
     await bot.add_cog(Info(bot))
