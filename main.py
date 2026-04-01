@@ -14,8 +14,6 @@ intents.members = True          # Untuk info member (join date, roles, dll)
 # Inisialisasi Bot dengan prefix "!" (sebagai fallback, kita akan fokus ke slash commands)
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-bot = commands.Bot(command_prefix='!', intents=intents)
-
 @bot.event
 async def on_ready():
     print(f'Login berhasil sebagai {bot.user} (ID: {bot.user.id})')
@@ -30,12 +28,11 @@ async def on_ready():
         synced = await bot.tree.sync()
         print(f"Berhasil sinkronisasi {len(synced)} slash command(s) secara global.")
         
-        # OTO-SYNC KE SERVER PERTAMA: Memaksa Discord mendaftarkan command ke server langsung
-        if bot.guilds:
-            first_guild = bot.guilds[0]
-            bot.tree.copy_global_to(guild=first_guild)
-            synced_local = await bot.tree.sync(guild=first_guild)
-            print(f"MAMAKSA SYNC {len(synced_local)} command langsung ke server '{first_guild.name}' (Mencegah delay).")
+        # OTO-SYNC KE SEMUA SERVER: Memaksa Discord mendaftarkan command ke server langsung
+        for guild in bot.guilds:
+            bot.tree.copy_global_to(guild=guild)
+            synced_local = await bot.tree.sync(guild=guild)
+            print(f"MAMAKSA SYNC {len(synced_local)} command langsung ke server '{guild.name}' (Mencegah delay).")
             
     except Exception as e:
         print(f"Gagal sinkronisasi command: {e}")

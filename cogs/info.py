@@ -65,11 +65,29 @@ class Info(commands.Cog):
                 cmd_strings.append(f"`/{cmd.name}` - {desc}")
                 
             if cmd_strings:
-                embed.add_field(
-                    name=f"🔸 {cog_name} Commands",
-                    value="\n".join(cmd_strings),
-                    inline=False
-                )
+                chunk = []
+                chunk_len = 0
+                part = 1
+                for cmd_str in cmd_strings:
+                    if chunk_len + len(cmd_str) + 1 > 1000:
+                        embed.add_field(
+                            name=f"🔸 {cog_name} Commands" if part == 1 else f"🔸 {cog_name} Commands (Cont.)",
+                            value="\n".join(chunk),
+                            inline=False
+                        )
+                        chunk = [cmd_str]
+                        chunk_len = len(cmd_str)
+                        part += 1
+                    else:
+                        chunk.append(cmd_str)
+                        chunk_len += len(cmd_str) + 1
+                        
+                if chunk:
+                    embed.add_field(
+                        name=f"🔸 {cog_name} Commands" if part == 1 else f"🔸 {cog_name} Commands (Cont.)",
+                        value="\n".join(chunk),
+                        inline=False
+                    )
                 
         embed.set_footer(text="Gunakan / di chat untuk melihat daftar lengkap perintah dari Discord.")
         

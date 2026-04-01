@@ -1,0 +1,55 @@
+[2026-03-12 09:56:26] [INFO    ] discord.client: logging in using static token
+Traceback (most recent call last):
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\ext\commands\bot.py", line 974, in _load_from_module_spec
+    await setup(self)
+  File "C:\Users\David Adesta\Discord-bot\cogs\utility.py", line 67, in setup
+    await bot.add_cog(Utility(bot))
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\ext\commands\bot.py", line 810, in add_cog
+    cog = await cog._inject(self, override=override, guild=guild, guilds=guilds)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\ext\commands\cog.py", line 749, in _inject
+    bot.tree.add_command(command, override=override, guild=guild, guilds=guilds)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\app_commands\tree.py", line 411, in add_command
+    raise CommandLimitReached(guild_id=None, limit=100)
+discord.app_commands.errors.CommandLimitReached: maximum number of slash commands exceeded 100 globally
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\David Adesta\Discord-bot\main.py", line 71, in <module>
+    bot.run(token)
+    ~~~~~~~^^^^^^^
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\client.py", line 933, in run
+    asyncio.run(runner())
+    ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\David Adesta\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\David Adesta\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\David Adesta\AppData\Local\Python\pythoncore-3.14-64\Lib\asyncio\base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\client.py", line 922, in runner
+    await self.start(token, reconnect=reconnect)
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\client.py", line 850, in start
+    await self.login(token)
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\client.py", line 693, in login
+    await self.setup_hook()
+  File "C:\Users\David Adesta\Discord-bot\main.py", line 65, in setup_hook
+    await load_cogs()
+  File "C:\Users\David Adesta\Discord-bot\main.py", line 60, in load_cogs
+    await bot.load_extension(f'cogs.{filename[:-3]}')
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\ext\commands\bot.py", line 1040, in load_extension
+    await self._load_from_module_spec(spec, name)
+  File "C:\Users\David Adesta\Discord-bot\.venv\Lib\site-packages\discord\ext\commands\bot.py", line 979, in _load_from_module_spec
+    raise errors.ExtensionFailed(key, e) from e
+discord.ext.commands.errors.ExtensionFailed: Extension 'cogs.utility' raised an error: CommandLimitReached: maximum number of slash commands exceeded 100 globally
+Berhasil memuat cog: economy.py
+Berhasil memuat cog: fun.py
+Berhasil memuat cog: games.py
+Berhasil memuat cog: info.py
+Berhasil memuat cog: moderation.py
+Berhasil memuat cog: social.py
